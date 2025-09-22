@@ -489,8 +489,8 @@ export default function ColombiaMap() {
 
     const load = async () => {
       setLoadError(null);
-      // Usar rutas directas desde la carpeta public
-      const base = "/";
+      // Usar rutas correctas para GitHub Pages
+      const base = import.meta.env.BASE_URL || "/";
 
       const shpURL = join(base, "departamentos/departamentos.shp");
       const dbfURL = join(base, "departamentos/departamentos.dbf");
