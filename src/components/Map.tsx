@@ -489,7 +489,8 @@ export default function ColombiaMap() {
 
     const load = async () => {
       setLoadError(null);
-      const base = import.meta.env.BASE_URL || "/";
+      // Usar rutas directas desde la carpeta public
+      const base = "/";
 
       const shpURL = join(base, "departamentos/departamentos.shp");
       const dbfURL = join(base, "departamentos/departamentos.dbf");
@@ -519,7 +520,7 @@ export default function ColombiaMap() {
       try {
         const geoURL = join(base, "colombia-departments.json");
         const res = await fetch(geoURL);
-        if (!res.ok) throw new Error(String(res.status));
+        if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
         const data = await res.json();
         const gj: GeoJSONData = data?.type === "Topology"
           ? (topoToGeo(data, data.objects[Object.keys(data.objects)[0]]) as unknown as GeoJSONData)
@@ -800,20 +801,82 @@ export default function ColombiaMap() {
                       const match = findDepartmentMatch(rawName, dataByName);
                       
                       const fill = match ? getColorByRate(match.cases) : "#e5e7eb";
+                      
+                      // Verificar si es San Andrés para aplicar stroke especial
+                      const isSanAndres = match?.name === "Archipiélago De San Andrés";
 
                       return (
                         <path
                           key={i}
                           d={pathGen(feat as any) || ""}
                           fill={fill}
-                          stroke="#374151"
-                          strokeWidth={0.7}
+                          stroke={isSanAndres ? "#ff6b35" : "#374151"}
+                          strokeWidth={isSanAndres ? 2 : 0.7}
                           className="cursor-pointer hover:opacity-80 hover:stroke-2 transition-all duration-200"
                           onClick={() => setSelectedRegion(match?.name || rawName || "Desconocido")}
                         />
                       );
                     })}
                   </svg>
+                  
+                  {/* Mapa inset para San Andrés y Providencia - posicionado en la parte superior */}
+                  <div className="absolute top-0 left-6 w-48 h-36 bg-white/95 rounded-lg border-2 border-orange-400 shadow-xl p-3">
+                    <div className="text-xs font-semibold text-orange-800 mb-2 text-center">
+                      🔍 Archipiélago de San Andrés
+                    </div>
+                    <svg viewBox="0 0 240 160" className="w-full h-full">
+                      {geojson.features
+                        .filter(feat => {
+                          const props = (feat.properties ?? {}) as Record<string, any>;
+                          const rawName = getDeptoName(props);
+                          const match = findDepartmentMatch(rawName, dataByName);
+                          return match?.name === "Archipiélago De San Andrés";
+                        })
+                        .map((feat, i) => {
+                          const match = dataByName.get("archipielago de san andres");
+                          const fill = match ? getColorByRate(match.cases) : "#e5e7eb";
+                          
+                          // Crear dos proyecciones separadas para mostrar las islas en diferentes posiciones
+                          const sanAndresProjection = geoMercator()
+                            .center([-81.7, 12.6]) // Coordenadas específicas de San Andrés
+                            .scale(12000)
+                            .translate([90, 80]);
+                          
+                          const providenciaProjection = geoMercator()
+                            .center([-81.4, 13.35]) // Coordenadas específicas de Providencia
+                            .scale(12000)
+                            .translate([150, 80]);
+                          
+                          const sanAndresPathGen = geoPath(sanAndresProjection);
+                          const providenciaPathGen = geoPath(providenciaProjection);
+                          
+                          return (
+                            <g key={`inset-${i}`}>
+                              {/* San Andrés */}
+                              <path
+                                d={sanAndresPathGen(feat as any) || ""}
+                                fill={fill}
+                                stroke="#ff6b35"
+                                strokeWidth={2}
+                                className="cursor-pointer hover:opacity-80 transition-opacity"
+                                onClick={() => setSelectedRegion("Archipiélago De San Andrés")}
+                              />
+                              {/* Providencia */}
+                              <path
+                                d={providenciaPathGen(feat as any) || ""}
+                                fill={fill}
+                                stroke="#ff6b35"
+                                strokeWidth={2}
+                                className="cursor-pointer hover:opacity-80 transition-opacity"
+                                onClick={() => setSelectedRegion("Archipiélago De San Andrés")}
+                              />
+                            </g>
+                          );
+                        })}
+                      
+                      {/* Etiquetas removidas - solo título superior */}
+                    </svg>
+                  </div>
                 </div>
               )}
 
@@ -946,10 +1009,16 @@ export default function ColombiaMap() {
           className="mt-12 glass-card bg-warm-100/80 backdrop-blur-sm rounded-xl p-6"
         >
           <h3 className="text-lg font-display font-bold mb-3 text-primary-900">Nota Metodológica</h3>
-          <p className="text-sm text-primary-600 leading-relaxed">
+          <p className="text-sm text-primary-600 leading-relaxed mb-3">
             Los datos presentados corresponden a casos reportados oficialmente en el sistema SIVIGILA. 
             La información de población vulnerable incluye diferentes grupos en situación de riesgo.
             Es importante considerar que existe un alto subregistro en muchas regiones.
+          </p>
+          <p className="text-sm text-primary-600 leading-relaxed">
+            <span className="font-semibold text-orange-700">Mapa inset:</span> Debido al tamaño geográfico reducido del 
+            Archipiélago de San Andrés, se incluye un mapa ampliado en la esquina inferior derecha para facilitar 
+            su visualización e interacción. El departamento aparece resaltado en color naranja tanto en el mapa 
+            principal como en el inset.
           </p>
         </motion.div>
       </div>

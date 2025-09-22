@@ -1,20 +1,13 @@
 import { useEffect, useState } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import Hero from './components/Hero'
-import Statistics from './components/Statistics'
-import ColombiaMap from './components/Map' // <- renombrado aquí
-import Historical from './components/Historical'
-import Footer from './components/Footer'
-import Navigation from './components/Navigation'
-import ScrollProgress from './components/ScrollProgress'
-import FloatingElements from './components/FloatingElements'
-import AnimatedBackground from './components/AnimatedBackground'
+import HomePage from './components/HomePage'
+import GraphicsAnalysis from './components/GraphicsAnalysis'
 import './App.css'
 import './styles/charts.css'
 
 function App() {
   const [isLoading, setIsLoading] = useState(true)
-  const [activeSection, setActiveSection] = useState('hero')
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -22,27 +15,6 @@ function App() {
     }, 2000)
 
     return () => clearTimeout(timer)
-  }, [])
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = ['hero', 'statistics', 'map', 'historical']
-      const scrollPosition = window.scrollY + 100
-
-      for (const section of sections) {
-        const element = document.getElementById(section)
-        if (element) {
-          const { offsetTop, offsetHeight } = element
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section)
-            break
-          }
-        }
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   return (
@@ -75,21 +47,14 @@ function App() {
         )}
       </AnimatePresence>
 
-      <div className="relative min-h-screen">
-        <AnimatedBackground />
-        <ScrollProgress />
-        <Navigation activeSection={activeSection} />
-        <FloatingElements />
-        
-        <main className="relative z-10">
-          <Hero />
-          <Statistics />
-          <ColombiaMap /> {/* <- usado aquí */}
-          <Historical />
-        </main>
-        
-        <Footer />
-      </div>
+      {!isLoading && (
+        <Router>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/graficas" element={<GraphicsAnalysis />} />
+          </Routes>
+        </Router>
+      )}
     </>
   )
 }
