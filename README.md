@@ -14,60 +14,96 @@
 
 ## 🚀 Tecnologías Utilizadas
 
-### Frontend
-- **React 19** - Framework de JavaScript
-- **TypeScript** - Tipado estático
-- **Vite** - Herramienta de construcción y desarrollo
-- **Tailwind CSS** - Framework de CSS utilitario
+### Frontend Core
 
-### Animaciones y UX
-- **Framer Motion** - Animaciones fluidas y transiciones
-- **Heroicons** - Iconografía moderna
-- **Efectos Glass Morphism** - Diseño visual moderno
+- **React 19** - Framework de JavaScript con hooks modernos
+- **TypeScript** - Tipado estático para desarrollo robusto
+- **Vite 7** - Herramienta de build ultra-rápida con HMR
+- **React Router DOM** - Navegación SPA con soporte para GitHub Pages
+
+### Estilos y UI
+
+- **Tailwind CSS** - Framework de CSS utilitario
+- **Framer Motion** - Animaciones fluidas y transiciones avanzadas
+- **Heroicons** - Iconografía SVG optimizada
+- **Headless UI** - Componentes accesibles sin estilos
 
 ### Visualización de Datos
-- **Recharts** - Gráficos y visualizaciones interactivas
-- **D3-geo** - Mapas geográficos
-- **SVG Maps** - Mapas vectoriales de Colombia
+
+- **Chart.js + react-chartjs-2** - Gráficos interactivos (barras, líneas, pie)
+- **Recharts** - Gráficos nativos para React
+- **D3.js (d3-geo)** - Procesamiento y proyección de mapas geográficos
+- **Shapefile.js** - Procesamiento de archivos geoespaciales (.shp, .dbf, .shx)
+
+### Datos Geográficos
+
+- **GeoJSON** - Formato de datos geográficos
+- **TopoJSON Client** - Optimización de datos topológicos
+- **Proyecciones Mercator** - Transformación de coordenadas para Colombia
+- **SVG Rendering** - Mapas vectoriales escalables
+
+### Deployment y CI/CD
+
+- **GitHub Actions** - Integración continua automatizada
+- **GitHub Pages** - Hosting estático con configuración SPA
+- **Vite Build Optimization** - Code splitting y tree-shaking automático
 
 ## Estructura del Proyecto
 
-```
+```bash
 src/
 ├── components/
-│   ├── Hero.tsx              # Página principal
-│   ├── Statistics.tsx        # Gráficos y estadísticas
-│   ├── Map.tsx              # Mapa interactivo de Colombia
-│   ├── Historical.tsx       # Línea de tiempo histórica
-│   ├── Navigation.tsx       # Barra de navegación
-│   ├── Footer.tsx           # Pie de página
-│   └── ...
+│   ├── AnimatedBackground.tsx   # Fondo animado
+│   ├── FloatingElements.tsx     # Elementos flotantes decorativos
+│   ├── Footer.tsx              # Pie de página
+│   ├── Hero.tsx                # Página principal con hero section
+│   ├── Historical.tsx          # Línea de tiempo histórica
+│   ├── Map.tsx                 # Mapa interactivo de Colombia con D3.js
+│   ├── Navigation.tsx          # Barra de navegación
+│   ├── Prevention.tsx          # Sección de prevención
+│   ├── Resources.tsx           # Recursos y enlaces
+│   ├── ScrollProgress.tsx      # Indicador de progreso de scroll
+│   ├── Statistics.tsx          # Gráficos estadísticos fijos
+│   ├── Stories.tsx            # Historias y testimonios
+│   └── GraphicsAnalysis.tsx    # Generador dinámico de gráficos
 ├── styles/
-│   ├── index.css           # Estilos globales
-│   └── charts.css          # Estilos para gráficos
-└── App.tsx                 # Componente principal
+│   └── charts.css             # Estilos específicos para gráficos
+├── assets/                    # Recursos estáticos
+├── App.tsx                    # Componente principal con routing
+└── main.tsx                   # Punto de entrada de la aplicación
 ```
 
 ## 📊 Características Principales
 
-### 1. **Dashboard de Estadísticas**
-- Gráficos de barras con casos por departamento
-- Gráficos circulares de distribución por tipo de violencia
-- Gráficos de línea con tendencias temporales
-- Gráficos horizontales de comparación regional
+### 1. **Generador Dinámico de Gráficos**
+
+- **Filtros interactivos**: Selección por departamentos (Top 5, Top 10, manual)
+- **Variables múltiples**: Casos totales, población vulnerable, distribución etaria
+- **Análisis temporal**: Visualización de casos por año (2013-2023)
+- **Botones de selección masiva**: Seleccionar/deseleccionar todos los departamentos
+- **Tipos de gráficos**: Barras, líneas y gráficos circulares (pie charts)
 
 ### 2. **Mapa Interactivo de Colombia**
-- Visualización por departamentos
-- Códigos de color según nivel de incidencia
-- Información detallada al hacer clic
-- Top 5 de departamentos más afectados
 
-### 3. **Línea de Tiempo Histórica**
-- Hitos importantes en derechos de las mujeres
-- Legislación relevante (Ley 1257, Ley Rosa Elvira Cely)
-- Avances institucionales
+- **Visualización geográfica**: Distribución por los 33 departamentos
+- **Códigos de color**: Gradiente cálido según nivel de incidencia
+- **Mapa inset especializado**: Zoom dedicado para el Archipiélago de San Andrés
+- **Interactividad completa**: Hover effects, tooltips y selección por clic
+- **Datos geoespaciales**: Procesamiento de Shapefiles y GeoJSON
 
-### 4. **Diseño Responsivo**
+### 3. **Dashboard de Estadísticas Fijas**
+
+- **Indicadores clave**: Total de casos, departamentos afectados, población en riesgo
+- **Top 10 departamentos**: Ranking visual de los más afectados
+- **Gráficos de distribución**: Casos por tipo de violencia y grupos vulnerables
+- **Tendencias temporales**: Evolución histórica de casos
+
+### 4. **Arquitectura Técnica Avanzada**
+
+- **Navegación SPA**: Routing con React Router DOM
+- **Optimización de performance**: Code splitting y lazy loading
+- **Procesamiento de datos**: Filtrado en tiempo real y memoización
+- **Deployment automatizado**: CI/CD con GitHub Actions
 - Optimizado para dispositivos móviles
 - Navegación intuitiva
 - Colores neutros y profesionales
@@ -75,6 +111,7 @@ src/
 ## 🔧 Instalación y Configuración
 
 ### Prerrequisitos
+
 - Node.js (versión 18 o superior)
 - npm o yarn
 
@@ -113,17 +150,20 @@ npm run lint        # Verificación de código
 - DANE (Departamento Administrativo Nacional de Estadística)
 - MinSalud - Ministerio de Salud y Protección Social
 
-
 ## 🚀 Despliegue
 
 ### GitHub Pages
+
 El proyecto se despliega automáticamente en GitHub Pages:
+
 ```
 URL: https://torodriguezt.github.io/OrquideaProyectWeb/
 ```
 
 ### Configuración de Despliegue
+
 El archivo `vite.config.ts` está configurado para GitHub Pages:
+
 ```typescript
 export default defineConfig({
   base: '/OrquideaProyectWeb/',
