@@ -40,7 +40,7 @@ function App() {
                   className="w-16 h-16 border-4 border-white border-t-transparent rounded-full mx-auto mb-4"
                 />
                 <h1 className="text-3xl font-display font-bold mb-2">Orquídea</h1>
-                <p className="text-lg opacity-90">Datos y análisis</p>
+                <p className="text-lg opacity-90">Cargando datos...</p>
               </motion.div>
             </div>
           </motion.div>
