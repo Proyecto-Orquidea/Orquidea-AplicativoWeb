@@ -1012,15 +1012,9 @@ export default function ColombiaMap() {
           <p className="text-sm text-primary-600 leading-relaxed mb-3">
             Los datos presentados corresponden a casos sospechosos o probables ocurridos entre 2013 y 2023, reportados oficialmente al Sistema de Vigilancia en Salud Pública (SIVIGILA). Dicho sistema es operado por el Instituto Nacional de Salud (INS) y administrado por el Grupo de Gestión para la Vigilancia en Salud Pública.
           </p>
-          <p className="text-sm text-primary-600 leading-relaxed mb-3">
+          <p className="text-sm text-primary-600 leading-relaxed">
             La información analizada incluye únicamente casos en los que la víctima corresponde al sexo biológico femenino, según lo consignado en la información del SIVIGILA.
             La información de población vulnerable incluye diferentes grupos en situación de riesgo.
-          </p>
-          <p className="text-sm text-primary-600 leading-relaxed">
-            <span className="font-semibold text-orange-700">Mapa inset:</span> Debido al tamaño geográfico reducido del 
-            Archipiélago de San Andrés, se incluye un mapa ampliado en la esquina superior izquierda para facilitar 
-            su visualización e interacción. El departamento aparece resaltado en color naranja tanto en el mapa 
-            principal como en el inset.
           </p>
         </motion.div>
       </div>

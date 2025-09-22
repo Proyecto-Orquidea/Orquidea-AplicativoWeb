@@ -740,8 +740,8 @@ const GraphicsAnalysis: React.FC = () => {
                 </div>
               )}
 
-              {/* Lista de departamentos (solo si está en modo manual) */}
-              {topFilter === 'all' && (
+              {/* Lista de departamentos (solo si está en modo manual y no es casos por año) */}
+              {topFilter === 'all' && selectedVariable !== 'cases_by_year' && (
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Departamentos ({selectedDepartments.length} seleccionados)
