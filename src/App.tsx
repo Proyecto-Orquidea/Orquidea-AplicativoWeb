@@ -48,7 +48,7 @@ function App() {
       </AnimatePresence>
 
       {!isLoading && (
-        <Router>
+        <Router basename={import.meta.env.BASE_URL}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/graficas" element={<GraphicsAnalysis />} />
