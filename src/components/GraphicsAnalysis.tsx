@@ -746,6 +746,23 @@ const GraphicsAnalysis: React.FC = () => {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Departamentos ({selectedDepartments.length} seleccionados)
                   </label>
+                  
+                  {/* Botones para seleccionar/deseleccionar todos */}
+                  <div className="flex gap-2 mb-3">
+                    <button
+                      onClick={() => setSelectedDepartments(regionData.map(r => r.name))}
+                      className="px-3 py-1 bg-green-600 text-white text-xs rounded-md hover:bg-green-700 transition-colors"
+                    >
+                      Seleccionar todos
+                    </button>
+                    <button
+                      onClick={() => setSelectedDepartments([])}
+                      className="px-3 py-1 bg-red-600 text-white text-xs rounded-md hover:bg-red-700 transition-colors"
+                    >
+                      Deseleccionar todos
+                    </button>
+                  </div>
+                  
                   <div className="max-h-48 overflow-y-auto border border-gray-300 rounded-md p-2">
                     {regionData.map(region => (
                       <label key={region.name} className="flex items-center gap-2 p-1 hover:bg-gray-50 rounded">
