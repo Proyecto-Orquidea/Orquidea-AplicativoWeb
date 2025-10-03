@@ -118,7 +118,6 @@ const Historical = () => {
           className="mt-16 text-center glass-card bg-warm-100/80 backdrop-blur-sm rounded-xl p-8"
         >
           <h3 className="text-2xl font-display font-bold mb-4 text-primary-900">
-            Proyecto Orquídea
           </h3>
           <p className="text-lg text-primary-600 max-w-2xl mx-auto">
           </p>

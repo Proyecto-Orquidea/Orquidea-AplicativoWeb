@@ -78,7 +78,7 @@ const Hero = () => {
             <HeartIcon className="w-16 h-16 mx-auto mb-6 text-accent-500" />
             <h1 className="text-5xl md:text-7xl font-display font-bold mb-4">
               <span className="gradient-text">
-                Orquídea
+                
               </span>
             </h1>
             <p className="text-lg md:text-xl text-primary-600 mb-2">

@@ -42,7 +42,6 @@ const Navigation = ({ activeSection }: NavigationProps) => {
             >
               <HeartIcon className="w-8 h-8 text-accent-500" />
               <span className="text-xl font-display font-bold text-primary-900">
-                Orquídea
               </span>
             </motion.div>
 
