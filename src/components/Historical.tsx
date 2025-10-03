@@ -121,7 +121,6 @@ const Historical = () => {
             Proyecto Orquídea
           </h3>
           <p className="text-lg text-primary-600 max-w-2xl mx-auto">
-            Proyecto financiado por MinCiencias, Colombia
           </p>
         </motion.div>
       </div>
