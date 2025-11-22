@@ -1,5 +1,7 @@
+# =====================================================
 # Logs
-logs
+# =====================================================
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,23 +9,73 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# =====================================================
+# Dependencies
+# =====================================================
+node_modules/
+
+# =====================================================
+# Build output (Electron + Vite/Webpack)
+# =====================================================
+dist/
+dist-ssr/
+out/
+build/
+release/
+public/build/
+
+# Electron packager / builder output
+*.asar
+*.exe
+*.dmg
+*.AppImage
+*.snap
+*.deb
+*.rpm
+
+# =====================================================
+# Environment files
+# =====================================================
+.env
+.env.local
+.env.production
+.env.development
 *.local
 
+# =====================================================
+# Caches
+# =====================================================
+.cache/
+.temp/
+tmp/
+.temp/
+.pnpm-store/
+
+# =====================================================
 # Legacy folders
+# =====================================================
 conciencia-mujer/
 
-# Editor directories and files
+# =====================================================
+# OS & Editor files
+# =====================================================
+.DS_Store
+Thumbs.db
+
+# VSCode
 .vscode/*
 !.vscode/extensions.json
-.idea
-.DS_Store
+
+# JetBrains / IDEs
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# =====================================================
+# Misc file types (not needed in repo)
+# =====================================================
 *.rds
 *.csv

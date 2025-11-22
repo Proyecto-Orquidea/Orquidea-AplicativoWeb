@@ -1,6 +1,9 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { HeartIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { useState } from 'react'
+
+// IMPORTA el logo como módulo Vite:
+import logoMinCiencias from '../assets/LogoMinCiencias.png'
 
 interface NavigationProps {
   activeSection: string
@@ -34,7 +37,7 @@ const Navigation = ({ activeSection }: NavigationProps) => {
       >
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            {/* Logo */}
+            {/* Logo izq / título clickeable */}
             <motion.div
               whileHover={{ scale: 1.05 }}
               className="flex items-center gap-2 cursor-pointer"
@@ -42,10 +45,11 @@ const Navigation = ({ activeSection }: NavigationProps) => {
             >
               <HeartIcon className="w-8 h-8 text-accent-500" />
               <span className="text-xl font-display font-bold text-primary-900">
+                {/* puedes poner nombre corto del proyecto aquí si quieres */}
               </span>
             </motion.div>
 
-            {/* Desktop Navigation */}
+            {/* Navegación desktop */}
             <div className="hidden md:flex items-center gap-8">
               {navigationItems.map((item) => (
                 <motion.button
@@ -70,22 +74,22 @@ const Navigation = ({ activeSection }: NavigationProps) => {
               ))}
             </div>
 
-            {/* Logo MinCiencias - Esquina superior derecha */}
+            {/* Logo MinCiencias (derecha en desktop) */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.7 }}
               className="hidden md:block"
             >
-              <img 
-                src="/Orquidea-AplicativoWeb/LogoMinCiencias.png" 
-                alt="MinCiencias" 
+              <img
+                src={logoMinCiencias}               // <- ya no usamos /absolute/path
+                alt="MinCiencias"
                 className="h-28 w-auto object-contain transform rotate-90"
                 style={{ transformOrigin: 'center' }}
               />
             </motion.div>
 
-            {/* Mobile Menu Button */}
+            {/* Botón menú mobile */}
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -102,7 +106,7 @@ const Navigation = ({ activeSection }: NavigationProps) => {
         </div>
       </motion.nav>
 
-      {/* Mobile Menu */}
+      {/* Menú lateral mobile */}
       {isMenuOpen && (
         <motion.div
           initial={{ opacity: 0, x: '100%' }}
@@ -135,7 +139,7 @@ const Navigation = ({ activeSection }: NavigationProps) => {
         </motion.div>
       )}
 
-      {/* Mobile Menu Overlay */}
+      {/* Overlay oscuro detrás del menú mobile */}
       {isMenuOpen && (
         <motion.div
           initial={{ opacity: 0 }}

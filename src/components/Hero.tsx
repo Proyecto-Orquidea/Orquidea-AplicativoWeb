@@ -1,14 +1,19 @@
+import { useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ChevronDownIcon, ShieldCheckIcon } from '@heroicons/react/24/outline'
 
+// importa los logos como módulos:
+import orquideaLogo from '../assets/Identificador-Programa-Orquideas.png'
+import unalLogo from '../assets/Logo-UNAL-Photoroom.png'
+
 const Hero = () => {
-  const scrollToNext = () => {
+  const scrollToNext = useCallback(() => {
     const statisticsSection = document.getElementById('statistics')
     if (statisticsSection) {
       statisticsSection.scrollIntoView({ behavior: 'smooth' })
     }
-  }
+  }, [])
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -34,21 +39,28 @@ const Hero = () => {
   }
 
   return (
-    <section id="hero" className="min-h-screen relative overflow-hidden bg-gradient-to-br from-warm-50 to-warm-100">
+    <section
+      id="hero"
+      className="min-h-screen relative overflow-hidden bg-gradient-to-br from-warm-50 to-warm-100"
+    >
       {/* Overlay sutil */}
       <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-primary-50/30 to-accent-50/20" />
-      
+
       {/* Elementos decorativos sutiles */}
       <div className="absolute inset-0 overflow-hidden opacity-20">
         {[...Array(15)].map((_, i) => (
           <motion.div
             key={i}
-            initial={{ 
-              x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1000),
-              y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1000),
+            initial={{
+              x:
+                Math.random() *
+                (typeof window !== 'undefined' ? window.innerWidth : 1000),
+              y:
+                Math.random() *
+                (typeof window !== 'undefined' ? window.innerHeight : 1000),
               opacity: 0
             }}
-            animate={{ 
+            animate={{
               y: [0, -50, 0],
               opacity: [0, 0.3, 0],
               scale: [0.5, 1, 0.5]
@@ -71,45 +83,44 @@ const Hero = () => {
           animate="visible"
           className="text-center text-primary-900 max-w-4xl"
         >
-          <motion.div
-            variants={itemVariants}
-            className="mb-8"
-          >
-            {/* Logo del Programa Orquídea */}
+          <motion.div variants={itemVariants} className="mb-8">
+            {/* Logos superiores: lado a lado */}
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
               className="mb-8"
             >
-              <img 
-                src="/Orquidea-AplicativoWeb/Identificador-Programa-Orquideas.png" 
-                alt="Programa Orquídea" 
-                className="mx-auto w-64 md:w-80 lg:w-96 h-auto drop-shadow-2xl"
-              />
+              <div className="flex flex-row items-center justify-center gap-8">
+                <img
+                  src={unalLogo}
+                  alt="Universidad Nacional de Colombia"
+                  className="mx-auto w-72 md:w-80 lg:w-96 h-auto drop-shadow-2xl"
+                />
+                <img
+                  src={orquideaLogo}
+                  alt="Programa Orquídea"
+                  className="mx-auto w-64 md:w-80 lg:w-96 h-auto drop-shadow-2xl"
+                />
+              </div>
             </motion.div>
-            
+
             <h1 className="text-5xl md:text-7xl font-display font-bold mb-4">
-              <span className="gradient-text">
-                
-              </span>
+              <span className="gradient-text"></span>
             </h1>
             <p className="text-lg md:text-xl text-primary-600 mb-2">
               Análisis de violencia contra la mujer en Colombia
             </p>
           </motion.div>
 
-          <motion.div
-            variants={itemVariants}
-            className="space-y-6"
-          >
+          <motion.div variants={itemVariants} className="space-y-6">
             <h2 className="text-2xl md:text-3xl font-display font-semibold leading-tight text-primary-800">
               Datos y análisis sobre{' '}
               <span className="text-accent-600">violencia de género</span>
             </h2>
             <p className="text-base md:text-lg text-primary-600 max-w-2xl mx-auto leading-relaxed">
-              Plataforma de información y estadísticas sobre la situación de la mujer 
-              en los diferentes departamentos de Colombia.
+              Plataforma de información y estadísticas sobre la situación de la
+              mujer en los diferentes departamentos de Colombia.
             </p>
           </motion.div>
 
@@ -128,7 +139,7 @@ const Hero = () => {
                 Ver estadísticas
               </span>
             </motion.button>
-            
+
             <Link to="/graficas">
               <motion.button
                 whileHover={{ scale: 1.05, y: -2 }}
@@ -136,8 +147,18 @@ const Hero = () => {
                 className="group px-8 py-4 border-2 border-primary-600 text-primary-600 rounded-full font-semibold text-lg hover:bg-primary-600 hover:text-white transition-all duration-300"
               >
                 <span className="flex items-center gap-2">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                    />
                   </svg>
                   Generar gráficas
                 </span>
