@@ -169,16 +169,6 @@ const RiskTable = () => {
                     >
                       <td className="px-6 py-4 text-sm text-primary-900 font-medium">
                         {row.parameter}
-                        {isHighRisk && (
-                          <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
-                            Alto riesgo
-                          </span>
-                        )}
-                        {isMediumRisk && (
-                          <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
-                            Riesgo moderado
-                          </span>
-                        )}
                       </td>
                       <td className={`px-6 py-4 text-sm text-center font-semibold ${
                         isHighRisk ? 'text-red-600' : 
