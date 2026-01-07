@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import HomePage from './components/HomePage'
 import GraphicsAnalysis from './components/GraphicsAnalysis'
+import RiskTable from './components/RiskTable'
 import './App.css'
 import './styles/charts.css'
 
@@ -52,6 +53,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/graficas" element={<GraphicsAnalysis />} />
+            <Route path="/riesgos" element={<RiskTable />} />
           </Routes>
         </Router>
       )}
