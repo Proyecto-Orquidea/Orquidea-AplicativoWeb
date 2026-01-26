@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import Hero from './Hero'
+import Introduction from './Introduction'
 import Statistics from './Statistics'
 import ColombiaMap from './Map'
 import Historical from './Historical'
@@ -14,7 +15,7 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['hero', 'statistics', 'map', 'historical']
+      const sections = ['hero', 'introduction', 'statistics', 'map', 'historical']
       const scrollPosition = window.scrollY + 100
 
       for (const section of sections) {
@@ -42,6 +43,7 @@ const HomePage: React.FC = () => {
       
       <main className="relative z-10">
         <Hero />
+        <Introduction />
         <Statistics />
         <ColombiaMap />
         <Historical />

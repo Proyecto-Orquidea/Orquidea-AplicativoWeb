@@ -9,9 +9,9 @@ import unalLogo from '../assets/Logo-UNAL-Photoroom.png'
 
 const Hero = () => {
   const scrollToNext = useCallback(() => {
-    const statisticsSection = document.getElementById('statistics')
-    if (statisticsSection) {
-      statisticsSection.scrollIntoView({ behavior: 'smooth' })
+    const introductionSection = document.getElementById('introduction')
+    if (introductionSection) {
+      introductionSection.scrollIntoView({ behavior: 'smooth' })
     }
   }, [])
 
@@ -96,11 +96,13 @@ const Hero = () => {
                   src={unalLogo}
                   alt="Universidad Nacional de Colombia"
                   className="mx-auto w-72 md:w-80 lg:w-96 h-auto drop-shadow-2xl"
+                  loading="eager"
                 />
                 <img
                   src={orquideaLogo}
                   alt="Programa Orquídea"
                   className="mx-auto w-64 md:w-80 lg:w-96 h-auto drop-shadow-2xl"
+                  loading="eager"
                 />
               </div>
             </motion.div>
@@ -192,25 +194,6 @@ const Hero = () => {
           </motion.div>
         </motion.div>
       </div>
-
-      {/* Indicador de scroll */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 2, duration: 1 }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-primary-600 cursor-pointer"
-        onClick={scrollToNext}
-      >
-        <div className="flex flex-col items-center">
-          <span className="text-sm mb-2">Desliza para continuar</span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          >
-            <ChevronDownIcon className="w-6 h-6" />
-          </motion.div>
-        </div>
-      </motion.div>
     </section>
   )
 }

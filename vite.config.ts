@@ -9,12 +9,30 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     sourcemap: false,
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true
+      }
+    },
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          animations: ['framer-motion'],
-          icons: ['@heroicons/react']
+        manualChunks: (id) => {
+          if (id.includes('node_modules')) {
+            if (id.includes('react')) {
+              return 'react-vendor'
+            }
+            if (id.includes('framer-motion')) {
+              return 'framer-motion'
+            }
+            if (id.includes('recharts')) {
+              return 'recharts'
+            }
+            if (id.includes('katex')) {
+              return 'katex'
+            }
+            return 'vendor'
+          }
         }
       }
     }
@@ -22,5 +40,8 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'framer-motion', 'recharts']
   }
 })

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { HashRouter as Router, Routes, Route } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import HomePage from './components/HomePage'
 import GraphicsAnalysis from './components/GraphicsAnalysis'
@@ -13,7 +13,7 @@ function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false)
-    }, 2000)
+    }, 800)
 
     return () => clearTimeout(timer)
   }, [])
@@ -49,7 +49,7 @@ function App() {
       </AnimatePresence>
 
       {!isLoading && (
-        <Router basename={import.meta.env.BASE_URL}>
+        <Router>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/graficas" element={<GraphicsAnalysis />} />

@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ChevronLeftIcon } from '@heroicons/react/24/outline'
 import { InlineMath, BlockMath } from 'react-katex'
+import anovaImage from '../assets/anova_dep_2-1.png'
 import 'katex/dist/katex.min.css'
 
 const RiskTable = () => {
@@ -65,9 +66,39 @@ const RiskTable = () => {
           <h1 className="text-4xl md:text-5xl font-display font-bold text-primary-900 mb-4">
             Tabla de Riesgos
           </h1>
-          <p className="text-lg text-primary-700 max-w-3xl">
+          <p className="text-lg text-primary-700 max-w-3xl text-center mx-auto">
             Análisis de Odds Ratio (OR) de factores de riesgo asociados a la violencia contra la mujer en Colombia
           </p>
+        </motion.div>
+
+        {/* Modelo Logístico: Explicación */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.22 }}
+          className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-warm-200 p-6 mb-8"
+        >
+          <h2 className="text-xl font-semibold text-primary-900 mb-3">Modelo de Regresión Logística</h2>
+          <div className="space-y-4 text-primary-800 text-base md:text-lg leading-relaxed">
+            <p>
+              Este estudio emplea un modelo de regresión logística para analizar los determinantes del acceso a servicios de salud mental en víctimas de violencia de género en Colombia. A partir de los datos del Sistema Nacional de Vigilancia en Salud Pública (SIVIGILA), se examinan variables relacionadas con la víctima, el agresor, el contexto del hecho y lugar del hecho, con el fin de identificar los principales factores que condicionan la recepción de estos servicios. Los hallazgos obtenidos pueden contribuir a mejorar las estrategias de atención y fortalecer la respuesta institucional.
+            </p>
+            <p>
+              Para analizar los factores que influyen en la atención en salud mental de las víctimas de violencia de género, se utilizó un modelo de regresión logística, el cual es apropiado dada la naturaleza de la variable respuesta, que es binaria. En este caso, se tiene que:
+            </p>
+            <div className="flex justify-center my-4">
+              <BlockMath math={String.raw`Y_i=\begin{cases}1, & \text{víctima } i \text{ recibe atención en salud mental} \\ 0, & \text{en caso contrario}\end{cases}`}/>
+            </div>
+            <p>
+              Tal que <InlineMath math={"Y_i"}/> sigue una distribución de probabilidad de Bernoulli:
+            </p>
+            <div className="flex justify-center my-4">
+              <BlockMath math={String.raw`Y_i \sim \text{Bernoulli-logit}(\theta_i),\quad i = 1,2,\dots,773179`}/>
+            </div>
+            <p>
+              Bajo la parametrización con restricción de suma cero, cada coeficiente expresa cuánto aumenta o disminuye la chance de acceder a servicios de salud mental en comparación con el promedio global, evitando la dependencia de una categoría de referencia específica.
+            </p>
+          </div>
         </motion.div>
 
         {/* Leyenda */}
@@ -194,15 +225,72 @@ const RiskTable = () => {
           </div>
         </motion.div>
 
-        {/* Footer información adicional */}
+        {/* Imagen ANOVA Departamental */}
+        <div className="flex justify-center my-12">
+          <div className="bg-white/80 rounded-2xl shadow-lg border border-warm-200 p-4 max-w-3xl w-full flex flex-col items-center">
+            <img
+              src={anovaImage}
+              alt="Resultados ANOVA departamental"
+              className="w-full h-auto max-h-[500px] object-contain rounded-lg shadow-md border border-primary-100"
+              style={{ background: 'white' }}
+            />
+            <span className="mt-2 text-primary-700 text-sm">Figura: Resultado ANOVA Bayesiano con los efectos mas relevantes asociados a la variabilidad de la variable respuesta</span>
+          </div>
+        </div>
+
+        {/* Resultados destacados al final */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-          className="mt-8 text-center text-sm text-primary-600"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1, duration: 0.6 }}
+          className="mt-12"
         >
-          <p>Datos basados en análisis estadístico de violencia contra la mujer en Colombia</p>
-          <p className="mt-2">Fuente: Programa Orquídea - Universidad Nacional de Colombia</p>
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-gradient-to-br from-white via-warm-50 to-accent-50/30 rounded-2xl shadow-2xl border border-warm-200 p-8 md:p-10">
+              <div className="text-center mb-6">
+                <h2 className="text-2xl md:text-3xl font-display font-bold text-primary-900 mb-2">Resultados Destacados</h2>
+                <div className="w-24 h-1 bg-gradient-to-r from-primary-500 to-accent-500 mx-auto rounded-full" />
+              </div>
+              
+              <div className="space-y-4 text-primary-800 text-base md:text-lg leading-relaxed">
+                <div className="bg-white/60 rounded-lg p-4 border-l-4 border-green-500">
+                  <p><strong className="text-green-700">Departamentos con mayor acceso:</strong> Putumayo (OR = 7.83; IC95: 5.69–10.76) y Nariño (OR = 3.29; IC95: 2.74–4.94), seguidos de Casanare (OR = 1.41) y Cauca (OR = 1.48).</p>
+                </div>
+                
+                <div className="bg-white/60 rounded-lg p-4 border-l-4 border-red-500">
+                  <p><strong className="text-red-700">Departamentos con menor acceso:</strong> Bogotá D.C. (OR = 0.30), Sucre (OR = 0.33), Córdoba (OR = 0.48), Tolima (OR = 0.48), La Guajira (OR = 0.52), Cesar (OR = 0.56), y otros con OR entre 0.56 y 0.7.</p>
+                </div>
+                
+                <div className="bg-white/60 rounded-lg p-4 border-l-4 border-purple-500">
+                  <p><strong className="text-purple-700">Naturaleza de la violencia:</strong> Psicológica (OR = 1.12), Sexual (OR = 2.55), Negligencia o abandono (OR = 0.43).</p>
+                </div>
+                
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="bg-white/60 rounded-lg p-4 border-l-4 border-blue-500">
+                    <p><strong className="text-blue-700">Convivencia con el agresor:</strong> No convivir (OR = 1.07), convivir (OR = 0.93).</p>
+                  </div>
+                  
+                  <div className="bg-white/60 rounded-lg p-4 border-l-4 border-orange-500">
+                    <p><strong className="text-orange-700">Sexo del agresor:</strong> Masculino (OR = 1.13), Femenino (OR = 0.88).</p>
+                  </div>
+                </div>
+                
+                <div className="bg-white/60 rounded-lg p-4 border-l-4 border-teal-500">
+                  <p><strong className="text-teal-700">Hospitalización:</strong> Sí (OR = 1.37), No (OR = 0.73).</p>
+                </div>
+              </div>
+              
+              <div className="mt-6 p-4 bg-primary-50 rounded-lg border border-primary-200">
+                <p className="text-primary-800 text-base md:text-lg italic text-center">
+                  Estos resultados evidencian una marcada heterogeneidad territorial y de factores asociados al acceso a servicios de salud mental, lo que puede orientar estrategias de intervención y políticas públicas más focalizadas.
+                </p>
+              </div>
+            </div>
+            
+            <div className="mt-8 text-center text-sm text-primary-600 space-y-1">
+              <p className="font-medium">Datos basados en análisis estadístico de violencia contra la mujer en Colombia</p>
+            </div>
+          </div>
         </motion.div>
       </div>
     </div>
