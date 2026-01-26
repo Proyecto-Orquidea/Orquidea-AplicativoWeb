@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { ChevronDownIcon, ShieldCheckIcon } from '@heroicons/react/24/outline'
+import { ShieldCheckIcon } from '@heroicons/react/24/outline'
 
 // importa los logos como módulos:
 import orquideaLogo from '../assets/Identificador-Programa-Orquideas.png'
