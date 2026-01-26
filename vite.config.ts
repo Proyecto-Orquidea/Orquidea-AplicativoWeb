@@ -14,13 +14,14 @@ export default defineConfig({
       output: {
         manualChunks: (id) => {
           if (id.includes('node_modules')) {
-            if (id.includes('react')) {
+            // Bundle react, react-dom, and scheduler together
+            if (id.includes('react') || id.includes('scheduler')) {
               return 'react-vendor'
             }
             if (id.includes('framer-motion')) {
               return 'framer-motion'
             }
-            if (id.includes('recharts')) {
+            if (id.includes('recharts') || id.includes('d3-')) {
               return 'recharts'
             }
             if (id.includes('katex')) {
