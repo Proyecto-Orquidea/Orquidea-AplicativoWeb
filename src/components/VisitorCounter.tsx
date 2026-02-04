@@ -1,38 +1,74 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 
+// Configuración del contador universal
+// Usamos CountAPI.xyz - servicio gratuito para contadores
+const NAMESPACE = 'orquidea-concienciamujer'
+const KEY = 'visitas'
+
 const VisitorCounter = () => {
   const [count, setCount] = useState<number | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // Using a localStorage-based counter as fallback
-    // Combined with a simple page view tracker
-    const storageKey = 'orquidea_visit_count'
-    
-    const getCount = () => {
+    const sessionKey = 'orquidea_session_counted'
+    const isNewSession = !sessionStorage.getItem(sessionKey)
+
+    const fetchCount = async () => {
       try {
-        // Get existing count from localStorage
-        let currentCount = parseInt(localStorage.getItem(storageKey) || '0', 10)
+        // Si es una nueva sesión, incrementamos el contador
+        // Si no, solo obtenemos el valor actual
+        const endpoint = isNewSession 
+          ? `https://api.countapi.xyz/hit/${NAMESPACE}/${KEY}`
+          : `https://api.countapi.xyz/get/${NAMESPACE}/${KEY}`
         
-        // Check if this is a new session
-        const sessionKey = 'orquidea_session_counted'
-        if (!sessionStorage.getItem(sessionKey)) {
+        const response = await fetch(endpoint)
+        
+        if (!response.ok) {
+          throw new Error('CountAPI no disponible')
+        }
+        
+        const data = await response.json()
+        
+        if (data.value !== undefined) {
+          setCount(data.value)
+          // Marcar esta sesión como contada
+          if (isNewSession) {
+            sessionStorage.setItem(sessionKey, 'true')
+          }
+          // Guardar en localStorage como backup
+          localStorage.setItem('orquidea_visit_count_backup', data.value.toString())
+        } else {
+          throw new Error('Respuesta inválida')
+        }
+      } catch (error) {
+        console.error('Error con CountAPI, usando fallback local:', error)
+        // Fallback a localStorage si CountAPI falla
+        fallbackToLocalStorage(isNewSession)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    const fallbackToLocalStorage = (shouldIncrement: boolean) => {
+      try {
+        const storageKey = 'orquidea_visit_count_backup'
+        let currentCount = parseInt(localStorage.getItem(storageKey) || '1000', 10)
+        
+        if (shouldIncrement && !sessionStorage.getItem(sessionKey)) {
           currentCount += 1
           localStorage.setItem(storageKey, currentCount.toString())
           sessionStorage.setItem(sessionKey, 'true')
         }
         
         setCount(currentCount)
-      } catch (error) {
-        console.error('Error with visitor count:', error)
+      } catch (err) {
+        console.error('Error con localStorage:', err)
         setCount(null)
-      } finally {
-        setIsLoading(false)
       }
     }
 
-    getCount()
+    fetchCount()
   }, [])
 
   if (isLoading) {
