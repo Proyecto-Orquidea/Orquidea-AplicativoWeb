@@ -1,14 +1,20 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 
-// Configuración del contador universal
-// Usamos CountAPI.xyz - servicio gratuito para contadores
-const NAMESPACE = 'orquidea-concienciamujer'
-const KEY = 'visitas'
+// Configuración del contador universal usando JSONBin.io (gratuito)
+// Crea tu bin en https://jsonbin.io y reemplaza estos valores
+const JSONBIN_BIN_ID = '67a0f8e8ad19ca34f8f3a2b1' // Reemplazar con tu BIN ID real
+const JSONBIN_API_KEY = '$2a$10$YOUR_API_KEY_HERE' // Reemplazar con tu API key
+
+// Alternativa: usar un servicio simple de contador
+// Usamos api.counterapi.dev que es gratuito y funcional
+const COUNTER_NAMESPACE = 'orquidea-concienciamujer'
+const COUNTER_NAME = 'visitas'
 
 const VisitorCounter = () => {
   const [count, setCount] = useState<number | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [isOnline, setIsOnline] = useState(true)
 
   useEffect(() => {
     const sessionKey = 'orquidea_session_counted'
@@ -16,34 +22,35 @@ const VisitorCounter = () => {
 
     const fetchCount = async () => {
       try {
-        // Si es una nueva sesión, incrementamos el contador
-        // Si no, solo obtenemos el valor actual
+        // Usamos counterapi.dev - servicio gratuito y activo
         const endpoint = isNewSession 
-          ? `https://api.countapi.xyz/hit/${NAMESPACE}/${KEY}`
-          : `https://api.countapi.xyz/get/${NAMESPACE}/${KEY}`
+          ? `https://api.counterapi.dev/v1/${COUNTER_NAMESPACE}/${COUNTER_NAME}/up`
+          : `https://api.counterapi.dev/v1/${COUNTER_NAMESPACE}/${COUNTER_NAME}`
         
-        const response = await fetch(endpoint)
+        const response = await fetch(endpoint, {
+          method: isNewSession ? 'GET' : 'GET',
+        })
         
         if (!response.ok) {
-          throw new Error('CountAPI no disponible')
+          throw new Error(`API error: ${response.status}`)
         }
         
         const data = await response.json()
         
-        if (data.value !== undefined) {
-          setCount(data.value)
-          // Marcar esta sesión como contada
+        if (data.count !== undefined) {
+          setCount(data.count)
+          setIsOnline(true)
           if (isNewSession) {
             sessionStorage.setItem(sessionKey, 'true')
           }
-          // Guardar en localStorage como backup
-          localStorage.setItem('orquidea_visit_count_backup', data.value.toString())
+          // Guardar backup
+          localStorage.setItem('orquidea_visit_count_backup', data.count.toString())
         } else {
           throw new Error('Respuesta inválida')
         }
       } catch (error) {
-        console.error('Error con CountAPI, usando fallback local:', error)
-        // Fallback a localStorage si CountAPI falla
+        console.warn('API de contador no disponible, usando backup local:', error)
+        setIsOnline(false)
         fallbackToLocalStorage(isNewSession)
       } finally {
         setIsLoading(false)
@@ -53,7 +60,8 @@ const VisitorCounter = () => {
     const fallbackToLocalStorage = (shouldIncrement: boolean) => {
       try {
         const storageKey = 'orquidea_visit_count_backup'
-        let currentCount = parseInt(localStorage.getItem(storageKey) || '1000', 10)
+        // Usar el último valor conocido del servidor, o un valor base
+        let currentCount = parseInt(localStorage.getItem(storageKey) || '0', 10)
         
         if (shouldIncrement && !sessionStorage.getItem(sessionKey)) {
           currentCount += 1
@@ -119,9 +127,14 @@ const VisitorCounter = () => {
             {count.toLocaleString('es-CO')}
           </p>
           <p className="text-xs text-white/70 uppercase tracking-wider">
-            Visitas totales
+            Visitas totales {!isOnline && '(offline)'}
           </p>
         </div>
+        {/* Indicador de sincronización */}
+        <div 
+          className={`w-2 h-2 rounded-full ${isOnline ? 'bg-green-400' : 'bg-yellow-400'}`}
+          title={isOnline ? 'Contador sincronizado' : 'Usando datos locales'}
+        />
       </div>
     </motion.div>
   )
