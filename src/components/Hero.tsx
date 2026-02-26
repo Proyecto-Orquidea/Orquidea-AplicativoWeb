@@ -3,8 +3,8 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ShieldCheckIcon } from '@heroicons/react/24/outline'
 
-import orquideaLogo from '../assets/Identificador-Programa-Orquideas.webp'
-import unalLogo from '../assets/Logo-UNAL-Photoroom.webp'
+import orquideaLogo from '../assets/Identificador-Programa-Orquideas.png'
+import unalLogo from '../assets/Logo-UNAL-Photoroom.png'
 
 const Hero = () => {
   const scrollToNext = useCallback(() => {
