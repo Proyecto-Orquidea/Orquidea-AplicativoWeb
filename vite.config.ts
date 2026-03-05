@@ -2,7 +2,7 @@ import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 
 // Repository name on GitHub – used as the sub-path when deployed to GitHub Pages
-const REPO_NAME = 'OrquideaProyectWeb'
+const REPO_NAME = 'Orquidea-AplicativoWeb'
 
 // Fonts actually used by the app (Main, Math, Size1-4)
 const KEEP_FONTS = [
@@ -64,6 +64,4 @@ export default defineConfig(({ command }) => ({
   optimizeDeps: {
     include: ['react', 'react-dom', 'framer-motion', 'recharts']
   },
-  // Ensure Tauri cleartext communication works in dev
-  clearScreen: false
 }))

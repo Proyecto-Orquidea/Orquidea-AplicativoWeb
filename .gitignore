@@ -15,7 +15,7 @@ lerna-debug.log*
 node_modules/
 
 # =====================================================
-# Build output (Electron + Vite/Webpack)
+# Build output (Vite)
 # =====================================================
 dist/
 dist-ssr/
@@ -32,6 +32,14 @@ public/build/
 *.snap
 *.deb
 *.rpm
+
+# Shapefile auxiliary files (only .shp, .dbf, .shx are needed)
+*.cpg
+*.prj
+*.sbn
+*.sbx
+*.shp.xml
+public/sw.js
 
 # =====================================================
 # Environment files
@@ -50,6 +58,17 @@ public/build/
 tmp/
 .temp/
 .pnpm-store/
+
+# =====================================================
+# Tauri (desktop app — not needed for web deployment)
+# =====================================================
+src-tauri/
+
+# =====================================================
+# Scripts & misc files
+# =====================================================
+scripts/
+*.xlsx
 
 # =====================================================
 # Legacy folders
