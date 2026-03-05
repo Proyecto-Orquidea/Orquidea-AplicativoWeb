@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { HeartIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
 // IMPORTA el logo como módulo Vite:
-import logoMinCiencias from '../assets/LogoMinCiencias.png'
+import logoMinCiencias from '../assets/LogoMinCiencias.webp'
 
 interface NavigationProps {
   activeSection: string

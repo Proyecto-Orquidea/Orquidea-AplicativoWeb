@@ -5,7 +5,6 @@ import { motion, useInView } from "framer-motion";
 import { MapPinIcon, ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { geoMercator, geoPath } from "d3-geo";
 import { feature as topoToGeo } from "topojson-client";
-import shp from "shpjs";
 
 type VulnerablePopulation = {
   discapacitadas: number;
@@ -492,6 +491,23 @@ export default function ColombiaMap() {
       // Usar rutas correctas para GitHub Pages
       const base = import.meta.env.BASE_URL || "/";
 
+      // Intentar primero con TopoJSON (mucho más ligero)
+      try {
+        const geoURL = join(base, "colombia-departments-topo.json");
+        const res = await fetch(geoURL);
+        if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
+        const data = await res.json();
+        const gj: GeoJSONData = data?.type === "Topology"
+          ? (topoToGeo(data, data.objects[Object.keys(data.objects)[0]]) as unknown as GeoJSONData)
+          : (data as GeoJSONData);
+
+        if (!cancelled) setGeojson(gj);
+        return;
+      } catch (e) {
+        console.warn("[MAP] Falla TopoJSON, probando SHP:", e);
+      }
+
+      // Fallback: shapefiles
       const shpURL = join(base, "departamentos/departamentos.shp");
       const dbfURL = join(base, "departamentos/departamentos.dbf");
       const shxURL = join(base, "departamentos/departamentos.shx");
@@ -507,6 +523,7 @@ export default function ColombiaMap() {
           shpRes.arrayBuffer(), dbfRes.arrayBuffer(),
         ]);
 
+        const shp = (await import("shpjs")).default;
         const geom = shp.parseShp(shpBuf);
         const attrs = shp.parseDbf(dbfBuf);
         const gj = shp.combine([geom, attrs]) as GeoJSONData;
@@ -514,22 +531,7 @@ export default function ColombiaMap() {
         if (!cancelled) setGeojson(gj);
         return;
       } catch (e) {
-        console.warn("[MAP] Falla SHP manual, probando GeoJSON:", e);
-      }
-
-      try {
-        const geoURL = join(base, "colombia-departments.json");
-        const res = await fetch(geoURL);
-        if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
-        const data = await res.json();
-        const gj: GeoJSONData = data?.type === "Topology"
-          ? (topoToGeo(data, data.objects[Object.keys(data.objects)[0]]) as unknown as GeoJSONData)
-          : (data as GeoJSONData);
-
-        if (!cancelled) setGeojson(gj);
-        return;
-      } catch (e) {
-        console.warn("[MAP] Falla GeoJSON fallback:", e);
+        console.warn("[MAP] Falla SHP fallback:", e);
       }
 
       if (!cancelled) {

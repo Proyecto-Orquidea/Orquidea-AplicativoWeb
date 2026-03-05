@@ -1,7 +1,21 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef, useEffect, useState } from 'react'
 import { ChartBarIcon, ExclamationTriangleIcon, HeartIcon, UsersIcon, MapPinIcon } from '@heroicons/react/24/outline'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip as ChartTooltip,
+  Legend,
+  Filler,
+} from 'chart.js'
+import { Bar as ChartBar, Line as ChartLine } from 'react-chartjs-2'
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, ChartTooltip, Legend, Filler)
 
 const Statistics = () => {
   const ref = useRef(null)
@@ -108,22 +122,36 @@ const Statistics = () => {
             <MapPinIcon className="w-5 h-5 text-primary-600" /> Casos por Departamento (Top 10)
           </h3>
           <div className="h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={departmentData} layout="vertical" margin={{ top: 20, right: 30, left: 80, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis type="number" stroke="#64748b" fontSize={12} />
-                <YAxis 
-                  dataKey="department" 
-                  type="category" 
-                  stroke="#64748b" 
-                  fontSize={12} 
-                  width={80} 
-                  tickFormatter={(value) => String(value).normalize("NFD").replace(/[\u0300-\u036f]/g, "")} 
-                />
-                <Tooltip contentStyle={{ backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '14px' }} formatter={(value) => [`${Number(value).toLocaleString()}`, 'Casos']} labelFormatter={(label) => label} />
-                <Bar dataKey="cases" fill="#ea7520" radius={[0, 4, 4, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+            <ChartBar
+              data={{
+                labels: departmentData.map(d => d.department.normalize("NFD").replace(/[\u0300-\u036f]/g, "")),
+                datasets: [{
+                  label: 'Casos',
+                  data: departmentData.map(d => d.cases),
+                  backgroundColor: '#ea7520cc',
+                  borderColor: '#ea7520',
+                  borderWidth: 1,
+                  borderRadius: 4,
+                }]
+              }}
+              options={{
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                  legend: { display: false },
+                  tooltip: {
+                    callbacks: {
+                      label: (ctx) => `${Number(ctx.parsed.x).toLocaleString()} Casos`
+                    }
+                  }
+                },
+                scales: {
+                  x: { ticks: { color: '#64748b', font: { size: 12 } }, grid: { color: '#e2e8f0' } },
+                  y: { ticks: { color: '#64748b', font: { size: 12 } }, grid: { display: false } }
+                }
+              }}
+            />
           </div>
         </motion.div>
 
@@ -133,15 +161,39 @@ const Statistics = () => {
             <MapPinIcon className="w-5 h-5 text-primary-600" /> Evolución de la Violencia en Colombia (2013-2023)
           </h3>
           <div className="h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={trendData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="year" stroke="#64748b" fontSize={12} />
-                <YAxis stroke="#64748b" fontSize={12} />
-                <Tooltip contentStyle={{ backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '14px' }} formatter={(value) => [`${Number(value).toLocaleString()}`, 'Casos Registrados']} />
-                <Line type="monotone" dataKey="cases" stroke="#475569" strokeWidth={3} dot={{ fill: '#475569', strokeWidth: 2, r: 6 }} activeDot={{ r: 8 }} name="cases" />
-              </LineChart>
-            </ResponsiveContainer>
+            <ChartLine
+              data={{
+                labels: trendData.map(d => d.year),
+                datasets: [{
+                  label: 'Casos Registrados',
+                  data: trendData.map(d => d.cases),
+                  borderColor: '#475569',
+                  backgroundColor: '#47556933',
+                  borderWidth: 3,
+                  pointBackgroundColor: '#475569',
+                  pointRadius: 6,
+                  pointHoverRadius: 8,
+                  tension: 0.3,
+                  fill: false,
+                }]
+              }}
+              options={{
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                  legend: { display: false },
+                  tooltip: {
+                    callbacks: {
+                      label: (ctx) => `${Number(ctx.parsed.y).toLocaleString()} Casos Registrados`
+                    }
+                  }
+                },
+                scales: {
+                  x: { ticks: { color: '#64748b', font: { size: 12 } }, grid: { color: '#e2e8f0' } },
+                  y: { ticks: { color: '#64748b', font: { size: 12 } }, grid: { color: '#e2e8f0' } }
+                }
+              }}
+            />
           </div>
         </motion.div>
 

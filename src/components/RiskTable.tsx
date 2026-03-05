@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ChevronLeftIcon } from '@heroicons/react/24/outline'
 import { InlineMath, BlockMath } from 'react-katex'
-import anovaImage from '../assets/anova_dep_2-1.png'
+import anovaImage from '../assets/anova_dep_2-1.webp'
 import 'katex/dist/katex.min.css'
 
 const RiskTable = () => {
@@ -237,6 +237,20 @@ const RiskTable = () => {
             <span className="mt-2 text-primary-700 text-sm">Figura: Resultado ANOVA Bayesiano con los efectos mas relevantes asociados a la variabilidad de la variable respuesta</span>
           </div>
         </div>
+
+        {/* Interpretación ANOVA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.9, duration: 0.6 }}
+          className="max-w-4xl mx-auto mb-12"
+        >
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-warm-200 p-6 md:p-8">
+            <p className="text-primary-800 text-base md:text-lg leading-relaxed">
+              Las mayores contribuciones a la variabilidad están asociadas con el tipo de violencia y con los efectos territoriales (departamento), mientras que la hospitalización y el sexo del agresor también aportan de manera significativa. Esto sugiere que las diferencias en el acceso a atención en salud mental se explican principalmente por la naturaleza del hecho violento y por el contexto territorial donde ocurre. La hospitalización también aparece como un factor relevante, lo que indica que los casos que implican mayor gravedad o mayor contacto con el sistema de salud tienden a activar con mayor frecuencia las rutas de atención psicológica o psiquiátrica. Otros predictores presentan contribuciones comparativamente menores.
+            </p>
+          </div>
+        </motion.div>
 
         {/* Resultados destacados al final */}
         <motion.div
