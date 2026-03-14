@@ -58,7 +58,7 @@ const HomePage: React.FC = () => {
               Tu opinión es muy importante para nosotros. Si has utilizado ConcienciaMujer, te invitamos a compartir tu experiencia diligenciando una breve encuesta de evaluación. Tus respuestas nos ayudarán a mejorar esta herramienta interactiva y a fortalecer su utilidad para la investigación y la comprensión de la violencia de género en Colombia.
             </p>
             <a
-              href="https://docs.google.com/forms/d/1LDD4ZFOlVLH-D05SUOSCDWUzUP0Yx4Iz0MmIxYymMqs/edit?usp=drivesdk"
+              href="https://docs.google.com/forms/d/e/1FAIpQLScQOamrinlWXnD65-AfndeZqaQ05c5TV7hC25ANKWPjjaVovg/viewform"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-8 rounded-full transition-colors duration-300 shadow-lg hover:shadow-xl"
