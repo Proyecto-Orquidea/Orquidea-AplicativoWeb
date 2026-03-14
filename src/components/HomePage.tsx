@@ -47,6 +47,26 @@ const HomePage: React.FC = () => {
         <Statistics />
         <ColombiaMap />
         <Historical />
+
+        {/* Survey Section */}
+        <section className="relative z-20 py-16 bg-gradient-to-b from-white to-primary-50">
+          <div className="container mx-auto px-4 max-w-3xl text-center">
+            <h2 className="text-2xl md:text-3xl font-display font-bold text-primary-700 mb-6">
+              Tu opinión es importante
+            </h2>
+            <p className="text-lg text-gray-700 leading-relaxed mb-8">
+              Tu opinión es muy importante para nosotros. Si has utilizado ConcienciaMujer, te invitamos a compartir tu experiencia diligenciando una breve encuesta de evaluación. Tus respuestas nos ayudarán a mejorar esta herramienta interactiva y a fortalecer su utilidad para la investigación y la comprensión de la violencia de género en Colombia.
+            </p>
+            <a
+              href="https://docs.google.com/forms/d/1LDD4ZFOlVLH-D05SUOSCDWUzUP0Yx4Iz0MmIxYymMqs/edit?usp=drivesdk"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-8 rounded-full transition-colors duration-300 shadow-lg hover:shadow-xl"
+            >
+              Acceder al formulario
+            </a>
+          </div>
+        </section>
       </main>
       
       <Footer />
